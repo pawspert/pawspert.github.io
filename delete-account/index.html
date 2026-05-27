@@ -185,6 +185,20 @@
       width: 100%; height: auto;
       display: block;
     }
+    .phone img.missing {
+      display: none;
+    }
+    .phone-placeholder-inner {
+      display: none;
+      width: 100%; height: 360px;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 10px;
+      color: var(--text3); font-size: 12px; text-align: center; padding: 20px;
+    }
+    .phone img.missing + .phone-placeholder-inner {
+      display: flex;
+    }
+    .placeholder-icon { font-size: 2rem; opacity: 0.4; }
     .phone-placeholder {
       width: 200px; height: 360px;
       border-radius: 36px;
@@ -307,7 +321,8 @@
       </div>
       <div class="phone-wrap">
         <div class="phone">
-          <img src="../assets/step1.png" alt="Profile screen showing About Pawspert option" />
+          <img src="../assets/step1.png" alt="Profile screen showing About Pawspert option" onerror="this.classList.add('missing')" />
+          <div class="phone-placeholder-inner"><span class="placeholder-icon">📱</span>Screenshot coming soon</div>
         </div>
       </div>
     </div>
@@ -327,7 +342,8 @@
       </div>
       <div class="phone-wrap">
         <div class="phone">
-          <img src="../assets/step2.png" alt="About Pawspert screen with Delete Account button" />
+          <img src="../assets/step2.png" alt="About Pawspert screen with Delete Account button" onerror="this.classList.add('missing')" />
+          <div class="phone-placeholder-inner"><span class="placeholder-icon">📱</span>Screenshot coming soon</div>
         </div>
       </div>
     </div>
@@ -348,7 +364,8 @@
       </div>
       <div class="phone-wrap">
         <div class="phone">
-          <img src="../assets/step3.png" alt="Delete account confirmation modal" />
+          <img src="../assets/step3.png" alt="Delete account confirmation modal" onerror="this.classList.add('missing')" />
+          <div class="phone-placeholder-inner"><span class="placeholder-icon">📱</span>Screenshot coming soon</div>
         </div>
       </div>
     </div>
