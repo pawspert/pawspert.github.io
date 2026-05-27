@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pawspert — India's Pet Care Super App</title>
+  <meta name="description" content="AI-powered vet consultations, digital pet health records, grooming & boarding — all in one app. India's first pet care super app. Coming soon on Android & iOS." />
+  <meta property="og:title" content="Pawspert — India's Pet Care Super App" />
+  <meta property="og:description" content="Connect your pet with licensed vets, track health records, and join a community of pet parents." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/logo.png" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="preload" href="assets/logo.png" as="image" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #000000;
+      --surface:   #0A0A0A;
+      --card:      #111111;
+      --card2:     #0D0D0D;
+      --border:    rgba(255,255,255,0.07);
+      --border2:   rgba(255,255,255,0.04);
+      --cyan:      #22D3EE;
+      --cyan-dim:  rgba(34,211,238,0.10);
+      --cyan-glow: rgba(34,211,238,0.18);
+      --yellow:    #FACC15;
+      --yellow-dim:rgba(250,204,21,0.10);
+      --green:     #4ADE80;
+      --purple:    #A78BFA;
+      --pink:      #F472B6;
+      --text1:     #F1F5F9;
+      --text2:     #94A3B8;
+      --text3:     #475569;
+      --radius:    16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text1);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 900; font-size: 20px; color: var(--text1);
+      text-decoration: none; letter-spacing: -0.03em;
+    }
+    .nav-logo img { width: 34px; height: 34px; object-fit: contain; }
+
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a {
+      font-size: 13.5px; font-weight: 500;
+      color: var(--text2); text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text1); }
+    .nav-cta {
+      background: var(--cyan);
+      color: #000 !important;
+      font-weight: 700 !important;
+      padding: 8px 18px;
+      border-radius: 10px;
+      transition: opacity 0.15s !important;
+    }
+    .nav-cta:hover { opacity: 0.85 !important; color: #000 !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 120px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* animated gradient orbs */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 70%);
+      top: -200px; left: 50%; transform: translateX(-50%);
+      animation: pulse-orb 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(250,204,21,0.06) 0%, transparent 70%);
+      bottom: 0; right: -150px;
+      animation: pulse-orb 8s ease-in-out infinite reverse;
+      pointer-events: none;
+    }
+    @keyframes pulse-orb {
+      0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+      50%       { transform: translateX(-50%) scale(1.1); opacity: 0.7; }
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--cyan-dim);
+      border: 1px solid rgba(34,211,238,0.25);
+      color: var(--cyan);
+      font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 16px; border-radius: 99px;
+      margin-bottom: 28px;
+      position: relative; z-index: 1;
+    }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--cyan);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+      position: relative; z-index: 1;
+      max-width: 760px;
+    }
+    .hero h1 .accent-cyan  { color: var(--cyan); }
+    .hero h1 .accent-yellow { color: var(--yellow); }
+
+    .hero-sub {
+      font-size: 17px; color: var(--text2); line-height: 1.75;
+      max-width: 520px; margin: 0 auto 40px;
+      position: relative; z-index: 1;
+    }
+
+    /* ── DOWNLOAD BUTTONS ── */
+    .dl-row {
+      display: flex; flex-wrap: wrap; gap: 14px;
+      justify-content: center;
+      position: relative; z-index: 1;
+      margin-bottom: 20px;
+    }
+    .dl-btn {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 20px;
+      text-decoration: none; color: var(--text1);
+      transition: border-color 0.2s, transform 0.15s;
+      min-width: 210px;
+    }
+    .dl-btn:hover {
+      border-color: rgba(34,211,238,0.4);
+      transform: translateY(-2px);
+    }
+    .dl-btn .store-icon { width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .dl-btn .store-text { text-align: left; flex: 1; }
+    .dl-btn .store-sub { font-size: 10px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.2; }
+    .dl-btn .store-name { font-size: 16px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; }
+    .dl-badge {
+      background: var(--yellow);
+      color: #000;
+      font-size: 9px; font-weight: 800; letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 6px;
+      white-space: nowrap;
+      align-self: flex-start;
+      flex-shrink: 0;
+    }
+    .hero-note {
+      font-size: 12px; color: var(--text3);
+      position: relative; z-index: 1;
+    }
+
+    /* ── STATS STRIP ── */
+    .stats-wrap {
+      max-width: 860px; margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .stat {
+      padding: 28px 20px;
+      text-align: center;
+      position: relative;
+    }
+    .stat + .stat::before {
+      content: '';
+      position: absolute; left: 0; top: 20%; bottom: 20%;
+      width: 1px; background: var(--border);
+    }
+    .stat-num {
+      font-size: 2rem; font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--cyan);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 12px; color: var(--text2);
+      font-weight: 500;
+    }
+    @media (max-width: 520px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(3)::before { display: none; }
+      .stat:nth-child(3), .stat:nth-child(4) {
+        border-top: 1px solid var(--border);
+      }
+    }
+
+    /* ── SECTION WRAPPER ── */
+    section {
+      max-width: 1080px; margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--cyan);
+      margin-bottom: 14px;
+    }
+    .section-tag::before {
+      content: '';
+      width: 20px; height: 1.5px;
+      background: var(--cyan);
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 15px; color: var(--text2);
+      line-height: 1.75; max-width: 520px;
+      margin-bottom: 48px;
+    }
+
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      border-color: rgba(34,211,238,0.3);
+      transform: translateY(-3px);
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .feature-card.c1::before { background: linear-gradient(90deg, var(--cyan), transparent); }
+    .feature-card.c2::before { background: linear-gradient(90deg, var(--yellow), transparent); }
+    .feature-card.c3::before { background: linear-gradient(90deg, var(--purple), transparent); }
+    .feature-card.c4::before { background: linear-gradient(90deg, var(--green), transparent); }
+    .feature-card.c5::before { background: linear-gradient(90deg, var(--pink), transparent); }
+    .feature-card.c6::before { background: linear-gradient(90deg, #FB923C, transparent); }
+    .feature-icon {
+      font-size: 2rem; margin-bottom: 16px;
+      display: block;
+    }
+    .feature-title {
+      font-size: 16px; font-weight: 800;
+      letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .feature-desc { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .feature-pill {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 6px;
+    }
+    .pill-cyan   { background: var(--cyan-dim); color: var(--cyan); border: 1px solid rgba(34,211,238,0.2); }
+    .pill-yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(250,204,21,0.2); }
+    .pill-green  { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
+    .pill-purple { background: rgba(167,139,250,0.1); color: var(--purple); border: 1px solid rgba(167,139,250,0.2); }
+
+    /* ── BENTO HOW IT WORKS ── */
+    .bento {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+    .bento-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      position: relative; overflow: hidden;
+    }
+    .bento-card.span2 { grid-column: span 2; }
+    .bento-card.span3 { grid-column: span 3; }
+    .bento-num {
+      font-size: 72px; font-weight: 900;
+      line-height: 1; letter-spacing: -0.06em;
+      color: rgba(255,255,255,0.04);
+      position: absolute; top: 8px; right: 16px;
+      pointer-events: none;
+    }
+    .bento-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+    .bento-title { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .bento-desc { font-size: 13px; color: var(--text2); line-height: 1.65; }
+    .bento-card.highlight {
+      background: linear-gradient(135deg, rgba(34,211,238,0.12), rgba(34,211,238,0.04));
+      border-color: rgba(34,211,238,0.2);
+    }
+    .bento-card.highlight .bento-num { color: rgba(34,211,238,0.08); }
+
+    /* ── PAWSPORT SHOWCASE ── */
+    .pawsport-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .pawsport-text .section-sub { margin-bottom: 28px; }
+    .pawsport-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .pawsport-list li {
+      display: flex; gap: 12px; align-items: flex-start;
+      font-size: 14px; color: var(--text2);
+    }
+    .pawsport-list .check {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(74,222,128,0.12);
+      border: 1.5px solid rgba(74,222,128,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; flex-shrink: 0; margin-top: 1px;
+    }
+    .pawsport-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      position: relative; overflow: hidden;
+    }
+    .pawsport-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(34,211,238,0.08), transparent 60%);
+    }
+    .ps-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+      position: relative; z-index: 1;
+    }
+    .ps-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan-dim), rgba(250,204,21,0.1));
+      border: 2px solid rgba(34,211,238,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+    }
+    .ps-name { font-weight: 800; font-size: 16px; }
+    .ps-breed { font-size: 12px; color: var(--text2); }
+    .ps-badge {
+      margin-left: auto;
+      background: var(--cyan-dim);
+      border: 1px solid rgba(34,211,238,0.3);
+      color: var(--cyan);
+      font-size: 9px; font-weight: 800; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px; border-radius: 6px;
+    }
+    .ps-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      position: relative; z-index: 1;
+      margin-bottom: 16px;
+    }
+    .ps-field {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .ps-field-label { font-size: 10px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+    .ps-field-value { font-size: 13px; font-weight: 600; }
+    .ps-qr {
+      display: flex; align-items: center; gap: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border2);
+      border-radius: 12px; padding: 12px 14px;
+      position: relative; z-index: 1;
+    }
+    .ps-qr-block {
+      width: 48px; height: 48px;
+      background: repeating-linear-gradient(
+        0deg, rgba(255,255,255,0.12) 0px, rgba(255,255,255,0.12) 4px, transparent 4px, transparent 8px
+      ),
+      repeating-linear-gradient(
+        90deg, rgba(255,255,255,0.12) 0px, rgba(255,255,255,0.12) 4px, transparent 4px, transparent 8px
+      );
+      border-radius: 6px; border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .ps-qr-text { font-size: 12px; color: var(--text2); }
+    .ps-qr-text strong { display: block; font-size: 13px; color: var(--text1); font-weight: 700; margin-bottom: 2px; }
+
+    /* ── COMMUNITY ── */
+    .community-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .post-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px; padding: 20px;
+      transition: border-color 0.2s;
+    }
+    .post-card:hover { border-color: rgba(34,211,238,0.25); }
+    .post-user {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .post-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .av1 { background: rgba(34,211,238,0.15); }
+    .av2 { background: rgba(250,204,21,0.15); }
+    .av3 { background: rgba(167,139,250,0.15); }
+    .post-name { font-size: 13px; font-weight: 700; }
+    .post-time { font-size: 11px; color: var(--text3); }
+    .post-body { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; }
+    .post-tag {
+      display: inline-block;
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.05em;
+      padding: 3px 9px; border-radius: 6px;
+      margin-right: 6px; margin-bottom: 8px;
+    }
+    .post-footer {
+      display: flex; gap: 14px; align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .post-action { font-size: 12px; color: var(--text3); display: flex; align-items: center; gap: 4px; }
+
+    /* ── LOYALTY / PAWPOINTS ── */
+    .loyalty-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    }
+    .points-card {
+      background: linear-gradient(135deg, #141E2E, #0F1623);
+      border: 1px solid var(--border);
+      border-radius: 24px; padding: 28px;
+    }
+    .points-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .points-label { font-size: 12px; color: var(--text3); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .points-val {
+      font-size: 3rem; font-weight: 900; letter-spacing: -0.05em;
+      color: var(--yellow); line-height: 1;
+      margin-bottom: 4px;
+    }
+    .points-sub { font-size: 12px; color: var(--text2); }
+    .points-bar-wrap { margin: 20px 0; }
+    .points-bar-label {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--text3); margin-bottom: 6px;
+    }
+    .points-bar {
+      height: 6px; border-radius: 99px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+    .points-bar-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, var(--yellow), #FB923C);
+      width: 68%;
+      animation: grow-bar 1.5s ease-out forwards;
+    }
+    @keyframes grow-bar { from { width: 0; } to { width: 68%; } }
+    .points-rewards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      margin-top: 16px;
+    }
+    .reward-chip {
+      background: rgba(250,204,21,0.08);
+      border: 1px solid rgba(250,204,21,0.15);
+      border-radius: 10px; padding: 10px 12px;
+      font-size: 12px; color: var(--text2);
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .reward-pts { font-size: 13px; font-weight: 800; color: var(--yellow); }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      max-width: 720px; margin: 0 auto 100px;
+      padding: 0 24px;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(34,211,238,0.12), rgba(34,211,238,0.04));
+      border: 1px solid rgba(34,211,238,0.2);
+      border-radius: 28px;
+      padding: 56px 48px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-box h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900; letter-spacing: -0.03em;
+      margin-bottom: 14px; position: relative; z-index: 1;
+    }
+    .cta-box p {
+      font-size: 15px; color: var(--text2); margin-bottom: 36px;
+      position: relative; z-index: 1;
+    }
+    .cta-btns {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      justify-content: center;
+      position: relative; z-index: 1;
+    }
+    .cta-notify {
+      display: flex; gap: 0; border-radius: 12px; overflow: hidden;
+      border: 1.5px solid var(--border);
+      max-width: 360px; width: 100%;
+    }
+    .cta-notify input {
+      flex: 1; background: var(--card); border: none; outline: none;
+      padding: 12px 16px; color: var(--text1);
+      font-size: 14px; font-family: inherit;
+    }
+    .cta-notify input::placeholder { color: var(--text3); }
+    .cta-notify button {
+      background: var(--cyan); border: none; cursor: pointer;
+      padding: 12px 18px; font-weight: 700; font-size: 13px;
+      color: #000; font-family: inherit;
+      white-space: nowrap; transition: opacity 0.15s;
+    }
+    .cta-notify button:hover { opacity: 0.85; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      max-width: 1080px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; gap: 20px;
+      align-items: center; justify-content: space-between;
+    }
+    .footer-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-weight: 900; font-size: 16px; letter-spacing: -0.02em;
+      color: var(--text1); text-decoration: none;
+    }
+    .footer-logo img { width: 26px; height: 26px; object-fit: contain; }
+
+    .footer-links { display: flex; flex-wrap: wrap; gap: 20px; }
+    .footer-links a {
+      font-size: 13px; color: var(--text2); text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--cyan); }
+    .footer-copy { font-size: 12px; color: var(--text3); width: 100%; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links .nav-hide { display: none; }
+      .bento { grid-template-columns: 1fr 1fr; }
+      .bento-card.span2 { grid-column: span 2; }
+      .bento-card.span3 { grid-column: span 2; }
+      .pawsport-wrap { grid-template-columns: 1fr; }
+      .community-row { grid-template-columns: 1fr; }
+      .loyalty-wrap { grid-template-columns: 1fr; }
+      .cta-box { padding: 36px 24px; }
+      footer { flex-direction: column; gap: 16px; }
+    }
+    @media (max-width: 520px) {
+      .bento { grid-template-columns: 1fr; }
+      .bento-card.span2, .bento-card.span3 { grid-column: span 1; }
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="assets/logo.png" alt="Pawspert logo" decoding="sync" fetchpriority="high" />
+    Pawspert
+  </a>
+  <div class="nav-links">
+    <a href="#features" class="nav-hide">Features</a>
+    <a href="#pawsport" class="nav-hide">Pawsport</a>
+    <a href="#community" class="nav-hide">Community</a>
+    <a href="#notify" class="nav-cta">Get Early Access</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-badge"><span class="badge-dot"></span> Launching on Android &amp; iOS</div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:24px;position:relative;z-index:1;">
+    <img src="assets/logo.png" alt="Pawspert" decoding="sync" fetchpriority="high" style="width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(34,211,238,0.3));" />
+  </div>
+  <h1>Your Pet's<br/><span class="accent-cyan">Health</span>, <span class="accent-yellow">Happiness</span><br/>&amp; Care — All in One</h1>
+  <p class="hero-sub">Connect with licensed vets, maintain a lifelong health record, find trusted groomers &amp; boarders, and join India's most caring pet community.</p>
+
+  <div class="dl-row">
+    <a href="#notify" class="dl-btn">
+      <span class="store-icon">
+        <!-- Google Play icon -->
+        <svg width="26" height="28" viewBox="0 0 26 28" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#34A853" d="M1 27.2c.4.2.9.3 1.4.1L16 19.5l-3-3z"/>
+          <path fill="#4285F4" d="M24.5 11.5l-3.6-2.1-3.8 3.6 3.8 3.6 3.6-2a2 2 0 000-3.2z"/>
+          <path fill="#FBBC05" d="M1 .8A2 2 0 000 2.5v23c0 .7.4 1.3 1 1.7l.1.1L14.8 14v-.3z"/>
+          <path fill="#EA4335" d="M16 8.5 2.1.9A2 2 0 001 .8L14.8 14z"/>
+        </svg>
+      </span>
+      <div class="store-text">
+        <div class="store-sub">Get it on</div>
+        <div class="store-name">Google Play</div>
+      </div>
+      <span class="dl-badge">Soon</span>
+    </a>
+    <a href="#notify" class="dl-btn">
+      <span class="store-icon">
+        <!-- Apple logo -->
+        <svg width="24" height="28" viewBox="0 0 24 28" xmlns="http://www.w3.org/2000/svg" fill="white">
+          <path d="M20.1 14.8c0-3.5 2.9-5.2 3-5.3-1.6-2.4-4.1-2.7-5-2.7-2.1-.2-4.2 1.2-5.3 1.2-1.1 0-2.7-1.2-4.5-1.2C5.6 6.9 2.8 9 1.4 12c-2.8 5.9-.7 14.5 2 19.2 1.3 1.9 2.9 4 5 3.9 2-.1 2.8-1.3 5.2-1.3 2.4 0 3.2 1.3 5.3 1.2 2.2 0 3.6-1.9 4.9-3.8 1.6-2.2 2.2-4.3 2.2-4.4-.1 0-4.9-1.9-4.9-7zM16.4 4.4c1.1-1.3 1.8-3.1 1.6-4.9-1.5.1-3.4 1-4.5 2.3-1 1.1-1.8 2.9-1.6 4.6 1.7.1 3.4-.8 4.5-2z"/>
+        </svg>
+      </span>
+      <div class="store-text">
+        <div class="store-sub">Download on the</div>
+        <div class="store-name">App Store</div>
+      </div>
+      <span class="dl-badge">Soon</span>
+    </a>
+  </div>
+  <p class="hero-note">Free to download &nbsp;·&nbsp; No subscription needed to get started</p>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats-wrap">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">AI</div>
+      <div class="stat-label">Powered vet triage</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Chat with your vet</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1-tap</div>
+      <div class="stat-label">Book appointments</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Your pet's data, secured</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FEATURES ═══ -->
+<section id="features">
+  <div class="section-tag">What we offer</div>
+  <h2 class="section-title">Everything your pet<br/>needs in one app</h2>
+  <p class="section-sub">From the moment you wake up wondering "is my dog okay?" to booking a vet, tracking vaccinations, and sharing their best moments.</p>
+
+  <div class="features-grid">
+    <div class="feature-card c1">
+      <span class="feature-icon">🩺</span>
+      <div class="feature-title">Vet Consultations</div>
+      <div class="feature-desc">Browse verified local vets, check real-time availability, and book in-clinic or video consultations — no more waiting on hold.</div>
+      <span class="feature-pill pill-cyan">Book instantly</span>
+    </div>
+    <div class="feature-card c2">
+      <span class="feature-icon">🤖</span>
+      <div class="feature-title">AI Health Assistant</div>
+      <div class="feature-desc">Describe your pet's symptoms and get instant, evidence-based guidance. Know when to visit a vet, when to monitor at home.</div>
+      <span class="feature-pill pill-yellow">Powered by AI</span>
+    </div>
+    <div class="feature-card c3">
+      <span class="feature-icon">📋</span>
+      <div class="feature-title">Digital Pawsport</div>
+      <div class="feature-desc">A lifelong health record for your pet. Vaccinations, prescriptions, allergies, weight history — one QR code away from any vet.</div>
+      <span class="feature-pill pill-purple">Vet-shareable QR</span>
+    </div>
+    <div class="feature-card c4">
+      <span class="feature-icon">✂️</span>
+      <div class="feature-title">Grooming &amp; Boarding</div>
+      <div class="feature-desc">Find and book nearby grooming salons and boarding facilities. Read real reviews from pet parents in your city.</div>
+      <span class="feature-pill pill-green">Near you</span>
+    </div>
+    <div class="feature-card c5">
+      <span class="feature-icon">🏘️</span>
+      <div class="feature-title">Pet Community</div>
+      <div class="feature-desc">Share milestones, ask questions, and learn from thousands of pet parents across India. Your tribe is here.</div>
+      <span class="feature-pill pill-cyan">Real community</span>
+    </div>
+    <div class="feature-card c6">
+      <span class="feature-icon">⭐</span>
+      <div class="feature-title">PawPoints Rewards</div>
+      <div class="feature-desc">Earn points on every booking and interaction. Redeem for discounts on future visits, treats, and exclusive offers.</div>
+      <span class="feature-pill pill-yellow">Earn &amp; redeem</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section id="how-it-works" style="padding-top: 0;">
+  <div class="section-tag">How it works</div>
+  <h2 class="section-title">From worry to wellness<br/>in minutes</h2>
+  <p class="section-sub">No complicated setup. Download, add your pet, and you're ready to go.</p>
+
+  <div class="bento">
+    <div class="bento-card highlight">
+      <div class="bento-num">1</div>
+      <span class="bento-icon">📲</span>
+      <div class="bento-title">Create your profile</div>
+      <div class="bento-desc">Sign up in under 60 seconds. Add your pet's name, breed, birthday, and photo. Your pet's profile is ready.</div>
+    </div>
+    <div class="bento-card">
+      <div class="bento-num">2</div>
+      <span class="bento-icon">🔍</span>
+      <div class="bento-title">Find the right vet</div>
+      <div class="bento-desc">Browse by location, specialty, or availability. Every vet is verified and rated.</div>
+    </div>
+    <div class="bento-card">
+      <div class="bento-num">3</div>
+      <span class="bento-icon">📅</span>
+      <div class="bento-title">Book a slot</div>
+      <div class="bento-desc">See real-time availability and book in a tap. Get instant confirmation and reminders.</div>
+    </div>
+    <div class="bento-card span2">
+      <div class="bento-num">4</div>
+      <span class="bento-icon">📋</span>
+      <div class="bento-title">Your consultation, automatically recorded</div>
+      <div class="bento-desc">After every visit, notes, prescriptions, and next steps are saved to your pet's Pawsport. You always have the full picture — not just the last visit.</div>
+    </div>
+    <div class="bento-card">
+      <div class="bento-num">5</div>
+      <span class="bento-icon">⭐</span>
+      <div class="bento-title">Earn rewards</div>
+      <div class="bento-desc">Every booking earns PawPoints. Redeem anytime for discounts on future care.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PAWSPORT ═══ -->
+<section id="pawsport" style="padding-top: 0;">
+  <div class="pawsport-wrap">
+    <div class="pawsport-text">
+      <div class="section-tag">Digital Pawsport</div>
+      <h2 class="section-title">One QR code.<br/>Every record.</h2>
+      <p class="section-sub">Stop carrying physical vaccine cards and trying to remember your pet's last deworming date. The Pawsport lives in the app and travels with you everywhere.</p>
+      <ul class="pawsport-list">
+        <li><span class="check">✓</span>Complete vaccination history with due-date reminders</li>
+        <li><span class="check">✓</span>Prescription records from every visit</li>
+        <li><span class="check">✓</span>Allergies, chronic conditions, and emergency notes</li>
+        <li><span class="check">✓</span>Shareable QR — any vet can scan and see the full history</li>
+        <li><span class="check">✓</span>Weight and growth tracking with visual charts</li>
+      </ul>
+    </div>
+    <div>
+      <div class="pawsport-card">
+        <div class="ps-header">
+          <div class="ps-avatar">🐕</div>
+          <div>
+            <div class="ps-name">Bruno</div>
+            <div class="ps-breed">Golden Retriever · 3 yrs</div>
+          </div>
+          <div class="ps-badge">✓ Verified</div>
+        </div>
+        <div class="ps-grid">
+          <div class="ps-field">
+            <div class="ps-field-label">Last Vaccine</div>
+            <div class="ps-field-value">Rabies — Mar '26</div>
+          </div>
+          <div class="ps-field">
+            <div class="ps-field-label">Next Due</div>
+            <div class="ps-field-value" style="color:var(--yellow)">Dhppi — Jun '26</div>
+          </div>
+          <div class="ps-field">
+            <div class="ps-field-label">Weight</div>
+            <div class="ps-field-value">28 kg</div>
+          </div>
+          <div class="ps-field">
+            <div class="ps-field-label">Blood Group</div>
+            <div class="ps-field-value">DEA 1.1+</div>
+          </div>
+        </div>
+        <div class="ps-qr">
+          <div class="ps-qr-block"></div>
+          <div class="ps-qr-text">
+            <strong>Pawsport QR</strong>
+            Scan to share Bruno's full health history with any vet
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMMUNITY ═══ -->
+<section id="community" style="padding-top: 0;">
+  <div class="section-tag">Community</div>
+  <h2 class="section-title">The pet parents<br/>you've been looking for</h2>
+  <p class="section-sub">Ask questions, share wins, find local playdate buddies, and get advice from people who actually get it.</p>
+
+  <div class="community-row">
+    <div class="post-card">
+      <div class="post-user">
+        <div class="post-avatar av1">🐱</div>
+        <div>
+          <div class="post-name">Priya M.</div>
+          <div class="post-time">2 hours ago · Mumbai</div>
+        </div>
+      </div>
+      <div class="post-body">"My kitten has been sneezing for 2 days but eating fine. Asked the AI — it suggested a vet check for URI. Booked same-day. Turns out mild infection, caught early! 🙌"</div>
+      <span class="post-tag pill-cyan">Health Tip</span>
+      <div class="post-footer">
+        <span class="post-action">❤️ 47</span>
+        <span class="post-action">💬 12 replies</span>
+      </div>
+    </div>
+    <div class="post-card">
+      <div class="post-user">
+        <div class="post-avatar av2">🐕</div>
+        <div>
+          <div class="post-name">Rahul S.</div>
+          <div class="post-time">Yesterday · Bangalore</div>
+        </div>
+      </div>
+      <div class="post-body">"Finally found a groomer who actually handles anxious dogs gently. Booked through Pawspert, no drama. Simba came home looking like a whole new dog 😂"</div>
+      <span class="post-tag pill-yellow">Grooming</span>
+      <div class="post-footer">
+        <span class="post-action">❤️ 83</span>
+        <span class="post-action">💬 8 replies</span>
+      </div>
+    </div>
+    <div class="post-card">
+      <div class="post-user">
+        <div class="post-avatar av3">🐇</div>
+        <div>
+          <div class="post-name">Ananya K.</div>
+          <div class="post-time">3 days ago · Delhi</div>
+        </div>
+      </div>
+      <div class="post-body">"Used the Pawsport QR at the emergency vet at midnight. They had Biscuit's full history in 10 seconds. That feature alone is worth everything."</div>
+      <span class="post-tag pill-purple">Pawsport</span>
+      <div class="post-footer">
+        <span class="post-action">❤️ 129</span>
+        <span class="post-action">💬 24 replies</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LOYALTY ═══ -->
+<section style="padding-top: 0;">
+  <div class="loyalty-wrap">
+    <div>
+      <div class="section-tag">PawPoints</div>
+      <h2 class="section-title">Every booking<br/>earns rewards</h2>
+      <p class="section-sub">Taking care of your pet should pay you back. Earn PawPoints on every consultation, service booking, and community milestone — redeem for real discounts.</p>
+      <ul class="pawsport-list">
+        <li><span class="check">✓</span>100 points for every vet consultation booked</li>
+        <li><span class="check">✓</span>50 points for grooming &amp; boarding bookings</li>
+        <li><span class="check">✓</span>25 points for completing your pet's Pawsport</li>
+        <li><span class="check">✓</span>Redeem for 10–20% off future bookings</li>
+      </ul>
+    </div>
+    <div class="points-card">
+      <div class="points-header">
+        <div>
+          <div class="points-label">PawPoints Balance</div>
+          <div class="points-val">1,840</div>
+          <div class="points-sub">≈ ₹184 in booking credit</div>
+        </div>
+        <span style="font-size:2.5rem">⭐</span>
+      </div>
+      <div class="points-bar-wrap">
+        <div class="points-bar-label">
+          <span>Progress to Gold</span><span>1,840 / 2,700 pts</span>
+        </div>
+        <div class="points-bar"><div class="points-bar-fill"></div></div>
+      </div>
+      <div class="points-rewards">
+        <div class="reward-chip"><span class="reward-pts">500 pts</span>10% off next vet visit</div>
+        <div class="reward-chip"><span class="reward-pts">800 pts</span>Free grooming session</div>
+        <div class="reward-chip"><span class="reward-pts">1200 pts</span>₹150 booking credit</div>
+        <div class="reward-chip"><span class="reward-pts">2000 pts</span>Priority booking slot</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<div class="cta-section" id="notify">
+  <div class="cta-box">
+    <h2>Be the first to know<br/>when we launch 🚀</h2>
+    <p>We're putting the finishing touches on something your pet is going to love. Drop your email and we'll notify you the moment Pawspert goes live.</p>
+    <div class="cta-btns">
+      <div class="cta-notify">
+        <input type="email" placeholder="your@email.com" />
+        <button onclick="handleNotify(this)">Notify me</button>
+      </div>
+    </div>
+    <p style="margin-top:16px; font-size:12px; color:var(--text3)">No spam. Just a ping when we're live. We promise 🐾</p>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <a href="/" class="footer-logo">
+    <img src="assets/logo.png" alt="Pawspert" decoding="sync" />
+    Pawspert
+  </a>
+  <div class="footer-links">
+    <a href="/privacy-policy">Privacy Policy</a>
+    <a href="/delete-account">Delete Account</a>
+    <a href="mailto:pawspert@gmail.com">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 Pawspert. Built with love for every pet parent in India. &nbsp;·&nbsp; <a href="mailto:pawspert@gmail.com" style="color:var(--cyan);text-decoration:none;">pawspert@gmail.com</a></div>
+</footer>
+
+<script>
+  function handleNotify(btn) {
+    const input = btn.previousElementSibling;
+    const email = input.value.trim();
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!re.test(email)) {
+      input.style.outline = '2px solid #EF4444';
+      setTimeout(() => input.style.outline = '', 1500);
+      return;
+    }
+    btn.textContent = '🐾 You\'re on the list!';
+    btn.style.background = '#4ADE80';
+    btn.disabled = true;
+    input.disabled = true;
+    input.style.opacity = '0.5';
+  }
+
+  // smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+
+</body>
+</html>

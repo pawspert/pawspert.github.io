@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Delete Your Account — Pawspert</title>
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #000000;
+      --surface:  #0A0A0A;
+      --card:     #111111;
+      --border:   rgba(255,255,255,0.07);
+      --cyan:     #22D3EE;
+      --cyan-dim: rgba(34,211,238,0.10);
+      --yellow:   #FACC15;
+      --red:      #EF4444;
+      --red-dim:  rgba(239,68,68,0.10);
+      --text1:    #F1F5F9;
+      --text2:    #94A3B8;
+      --text3:    #475569;
+      --radius:   16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text1);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(0,0,0,0.90);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-weight: 900; font-size: 18px; color: var(--text1);
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500;
+      color: var(--text2); text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 64px 24px 48px;
+      text-align: center;
+      max-width: 640px; margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--red-dim);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: var(--red);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px; border-radius: 99px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 15px; color: var(--text2); line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .warning-box {
+      background: var(--red-dim);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex; gap: 12px; align-items: flex-start;
+      text-align: left;
+    }
+    .warning-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .warning-box p { font-size: 13px; color: #FCA5A5; margin-bottom: 0; line-height: 1.6; }
+    .warning-box strong { color: var(--red); }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 820px; margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--cyan);
+      margin-bottom: 28px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ── STEP CARDS ── */
+    .steps { display: flex; flex-direction: column; gap: 32px; }
+
+    .step {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .step::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+    }
+    .step.reverse { direction: rtl; }
+    .step.reverse > * { direction: ltr; }
+
+    .step-text { }
+    .step-num {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .step-num-circle {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--cyan-dim); border: 1.5px solid var(--cyan);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 900; color: var(--cyan);
+    }
+    .step h2 {
+      font-size: 1.35rem; font-weight: 800;
+      letter-spacing: -0.02em; margin-bottom: 10px;
+    }
+    .step p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+    .step-tip {
+      margin-top: 14px;
+      background: var(--cyan-dim);
+      border: 1px solid rgba(34,211,238,0.2);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12.5px; color: var(--cyan);
+      display: flex; gap: 8px; align-items: flex-start;
+    }
+
+    /* ── PHONE MOCKUP ── */
+    .phone-wrap {
+      display: flex; justify-content: center; align-items: center;
+    }
+    .phone {
+      width: 200px;
+      border-radius: 36px;
+      border: 3px solid rgba(255,255,255,0.12);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.5),
+        0 24px 60px rgba(0,0,0,0.6),
+        0 0 40px rgba(34,211,238,0.06);
+      overflow: hidden;
+      background: #000;
+    }
+    .phone img {
+      width: 100%; height: auto;
+      display: block;
+    }
+    .phone-placeholder {
+      width: 200px; height: 360px;
+      border-radius: 36px;
+      border: 3px solid rgba(255,255,255,0.08);
+      background: var(--surface);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; color: var(--text3); font-size: 12px;
+      text-align: center; padding: 20px;
+    }
+
+    /* ── WHAT GETS DELETED ── */
+    .deleted-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .deleted-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .del-icon { font-size: 18px; flex-shrink: 0; }
+    .del-label { font-size: 13px; color: var(--text2); font-weight: 500; }
+
+    /* ── CONTACT ── */
+    .contact-box {
+      margin-top: 56px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      text-align: center;
+    }
+    .contact-box h3 {
+      font-size: 1.2rem; font-weight: 800; margin-bottom: 8px;
+    }
+    .contact-box p { font-size: 14px; color: var(--text2); margin-bottom: 20px; }
+    .email-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--cyan-dim);
+      border: 1.5px solid var(--cyan);
+      color: var(--cyan);
+      padding: 12px 24px; border-radius: 12px;
+      font-size: 14px; font-weight: 700;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .email-btn:hover {
+      background: var(--cyan);
+      color: #000;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 12px; color: var(--text3);
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .step { grid-template-columns: 1fr; }
+      .step.reverse { direction: ltr; }
+      .phone-wrap { order: -1; }
+      .phone { width: 160px; }
+      .phone-placeholder { width: 160px; height: 290px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="../assets/logo.png" alt="Pawspert" style="width:30px;height:30px;object-fit:contain;" />
+    Pawspert
+  </a>
+  <div class="nav-links">
+    <a href="/privacy-policy">Privacy Policy</a>
+    <a href="mailto:pawspert@gmail.com">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">⚠️ Permanent Action</div>
+  <h1>How to Delete<br/>Your Account</h1>
+  <p>Follow the steps below to permanently delete your Pawspert account and all associated data directly from the app.</p>
+  <div class="warning-box">
+    <span class="warning-icon">🔴</span>
+    <p><strong>This cannot be undone.</strong> Deleting your account will permanently remove your profile, all pet health records, booking history, community posts, and PawPoints balance. Your data is purged from our servers within 90 days.</p>
+  </div>
+</section>
+
+<!-- STEPS -->
+<main>
+  <p class="section-label">Step-by-step guide</p>
+
+  <div class="steps">
+
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-text">
+        <div class="step-num">
+          <div class="step-num-circle">1</div>
+          Step One
+        </div>
+        <h2>Open Profile & tap "About Pawspert"</h2>
+        <p>Open the Pawspert app and tap the <strong style="color:var(--text1)">Profile</strong> tab in the bottom navigation bar. Scroll down past your pet info and tap the <strong style="color:var(--text1)">"About Pawspert"</strong> row.</p>
+        <div class="step-tip">
+          💡 The Profile tab is the rightmost icon in the bottom nav bar.
+        </div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <img src="../assets/step1.png" alt="Profile screen showing About Pawspert option" />
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step reverse">
+      <div class="step-text">
+        <div class="step-num">
+          <div class="step-num-circle">2</div>
+          Step Two
+        </div>
+        <h2>Scroll to the bottom & tap "Delete Account"</h2>
+        <p>Inside the About Pawspert screen, scroll all the way to the <strong style="color:var(--text1)">bottom</strong>. You'll see a <strong style="color:var(--red)">Delete Account</strong> button with a short description below it. Tap it to begin the deletion process.</p>
+        <div class="step-tip" style="background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.2);color:#FCA5A5;">
+          ⚠️ This will open a confirmation sheet — nothing is deleted yet at this point.
+        </div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <img src="../assets/step2.png" alt="About Pawspert screen with Delete Account button" />
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-text">
+        <div class="step-num">
+          <div class="step-num-circle">3</div>
+          Step Three
+        </div>
+        <h2>Confirm your email & delete</h2>
+        <p>A confirmation sheet will appear. Enter the <strong style="color:var(--text1)">email address linked to your account</strong> in the field provided, then tap <strong style="color:var(--red)">"DELETE MY ACCOUNT"</strong>.</p>
+        <p style="margin-top:10px">Your account will be immediately deactivated. All data is permanently purged within <strong style="color:var(--text1)">90 days</strong> in line with our Privacy Policy.</p>
+        <div class="step-tip">
+          ✅ Once confirmed, you'll be signed out automatically.
+        </div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <img src="../assets/step3.png" alt="Delete account confirmation modal" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- WHAT GETS DELETED -->
+  <div style="margin-top: 56px;">
+    <p class="section-label">What gets deleted</p>
+    <div class="deleted-grid">
+      <div class="deleted-item"><span class="del-icon">👤</span><span class="del-label">Your profile — name, email, city</span></div>
+      <div class="deleted-item"><span class="del-icon">🐾</span><span class="del-label">All pet profiles and health records</span></div>
+      <div class="deleted-item"><span class="del-icon">📅</span><span class="del-label">Booking history and consultation notes</span></div>
+      <div class="deleted-item"><span class="del-icon">💬</span><span class="del-label">Community posts and comments</span></div>
+      <div class="deleted-item"><span class="del-icon">⭐</span><span class="del-label">PawPoints balance and rewards</span></div>
+      <div class="deleted-item"><span class="del-icon">📋</span><span class="del-label">Digital Pawsport and QR code</span></div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-box">
+    <div style="font-size:2.5rem; margin-bottom:12px;">✉️</div>
+    <h3>Need help or can't access the app?</h3>
+    <p>If you've already uninstalled Pawspert or are having trouble accessing your account, email us directly and we'll process your deletion request within 7 business days.</p>
+    <a href="mailto:pawspert@gmail.com?subject=Account%20Deletion%20Request" class="email-btn">
+      📧 pawspert@gmail.com
+    </a>
+    <p style="margin-top:16px; font-size:12px; color:var(--text3)">Include the email address registered with your Pawspert account in your message.</p>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Pawspert. All rights reserved. &nbsp;·&nbsp; <a href="/privacy-policy">Privacy Policy</a> &nbsp;·&nbsp; <a href="mailto:pawspert@gmail.com">pawspert@gmail.com</a></p>
+</footer>
+
+</body>
+</html>
